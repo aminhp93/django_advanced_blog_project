@@ -20,6 +20,17 @@
 
         <!-- {{ instance.get_markdown}} -->
     </div>
+    <div>
+
+        <!-- {{ instance.comment_set.all }} -->
+    </div>
+    <div>
+        <p class="lead">Comments</p>
+        {% for i in comments %}
+            {{ i.content_object }}
+            <div class="">{{ i.content }} <br/> via {{ i.user }} on {{ i.timestamp|timesince }} ago</div>
+        {% endfor %}
+    </div>
     
 
     <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
