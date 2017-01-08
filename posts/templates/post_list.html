@@ -12,14 +12,15 @@
         <div class="thumbnail">
             {% if i.image %}
             <img src="{{i.image.url}}" alt="" class="img-responsive"> {% endif %}
-            <div class="caption">
+            <div class="caption post-detail-item">
                 {% if i.user.get_full_name %}
                 <p>Author: {{ i.user.get_full_name }}</p>
                 {% else %}
                 <p>Author: {{ i.user }}</p>
                 {% endif %}
                 <a href="{{ i.get_absolute_url }}">{{ i.title}}</a>
-                <!-- <h3>{{ i.content | linebreaks | truncatechars:120 }}</h3> -->
+                <div class="content-markdown">{{ i.content | truncatechars:120 }}</div>
+                <!-- <div class="">{{ i.get_markdown }}</div> -->
                 <!-- <div>{{ i.update }}</div> -->
                 <!-- <div>{{ i.timestamp | timesince }} ago</div> -->
                 <div>{{ i.publish }}</div>
