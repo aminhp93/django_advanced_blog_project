@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+{% load urlify %}
+
+{% block head %} {{ instance.title }} {% endblock%} {% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+    {% if instance.image %}
+        <img src="{{instance.image.url}}" alt="" class="img-responsive">
+    {% endif %}
+    <h3>Title: {{ title }} {% if instance.draft %} <span style="color:red">Draft</span> {% endif %}| {{ instance.publish }}</h3>
+    {% if instance.user.get_full_name %}
+    <p>Author: {{ instance.user.get_full_name }}</p>
+    {% else %}
+    <p>Author: {{ instance.user }}</p>
+    {% endif %}
+    <div>
+
+        <!-- {{ instance.id }} -->
+        <!-- {{ instance.title }} -->
+        <!-- {{ instance.content|linebreaks }} -->
+    </div>
+    
+
+    <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    <hr>
+
+    <div class="fb-comments" data-href="{{request.build_absolute_uri}}" data-numposts="5"></div>
+    <!-- {{ request.build_absolute_uri }} -->
+
+    <!-- {{ share_string }} -->
+    <!-- {{ instance.content | truncatechars:20 | urlify }} -->
+
+    <!-- <a href="https://www.facebook.com/sharer/sharer.php?u=http://CodingForEntreprenasdfeurs.com/">Share on Facebook</a>
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri}}">Share on Facebook</a>
+
+    <a href='https://plus.google.com/share?url={{ request.build_absolute_uri}}'>
+
+    <a href="https://twitter.com/home?status={{share_string}}%20{{ request.build_absolute_uri}}">Share on Twitter</a>
+
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri}}/&title={{instance.title}}&summary={{share_string}}&source={{ request.build_absolute_uri}}">Share on Linkedin</a>
+
+    <a href="http://www.reddit.com/submit?url={{ request.build_absolute_uri}}&title={{instance.title}}">Share on Reddit</a> -->
+</div>
+{% endblock %}
