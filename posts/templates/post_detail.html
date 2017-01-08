@@ -12,11 +12,11 @@
     {% else %}
     <p>Author: {{ instance.user }}</p>
     {% endif %}
-    <div>
+    <div class="content-markdown">
 
         <!-- {{ instance.id }} -->
         <!-- {{ instance.title }} -->
-        <!-- {{ instance.content|linebreaks }} -->
+        {{ instance.content }}
     </div>
     
 
