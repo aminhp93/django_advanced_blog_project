@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load urlify %}
+{% load crispy_forms_tags %}
 
 {% block head %} {{ instance.title }} {% endblock%} {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
@@ -26,9 +27,17 @@
     </div>
     <div>
         <p class="lead">Comments</p>
+        <form action="." method="POST">
+            {% csrf_token %}
+            {{ comment_form | crispy}}
+            <input type="submit" value="Post comment" class="btn btn-default">
+        </form>
         {% for i in comments %}
+        <blockquote>
             {{ i.content_object }}
             <div class="">{{ i.content }} <br/> via {{ i.user }} on {{ i.timestamp|timesince }} ago</div>
+        </blockquote>
+            
         {% endfor %}
     </div>
     

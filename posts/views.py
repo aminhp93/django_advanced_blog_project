@@ -15,11 +15,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.contenttypes.models import ContentType
+
 # from django.contrib.contenttypes.models import ContentType
 
 from comments.models import Comment
 from .models import Post
 from .forms import PostForm
+from comments.forms import CommentForm
 
 # Create your views here.
 
@@ -57,11 +60,34 @@ def post_detail(request, slug=None):
 	# comments = Comment.objects.filter_by_instance(instance)
 	comments = instance.comments
 
+	initial_data = {
+		"content_type": instance.get_content_type,
+		"object_id": instance.id
+	}
+
+	form = CommentForm(request.POST or None, initial=initial_data)
+	
+	if form.is_valid():
+		print(form.cleaned_data)
+		c_type = form.cleaned_data.get("content_type")
+		content_type = ContentType.objects.get(model=c_type)
+		obj_id = form.cleaned_data.get("object_id")
+		content_data = form.cleaned_data.get("content")
+		new_comment, created = Comment.objects.get_or_create(
+			user = request.user,
+			content_type = content_type,
+			object_id = obj_id,
+			content = content_data
+			)
+		if created:
+			print("It worked")
+
 	context = {
-		"title": "detail",
+		"title": instance.title,
 		"instance": instance,
 		"share_string": share_string,
 		"comments": comments,
+		"comment_form": form,
 	}
 	return render(request, 'post_detail.html', context)
 
