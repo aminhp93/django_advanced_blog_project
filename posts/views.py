@@ -82,14 +82,9 @@ def post_detail(request, slug=None):
 			parent_id = None
 
 		if parent_id:
-			print(parent_id)
 			parent_qs = Comment.objects.filter(id = parent_id)
-			print("86")
-			print(parent_qs)
 			if parent_qs.exists() and parent_qs.count() == 1:
-				print("88")
 				parent_obj = parent_qs.first()
-				print(parent_obj)
 
 		new_comment, created = Comment.objects.get_or_create(
 			user = request.user,

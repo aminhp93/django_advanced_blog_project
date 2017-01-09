@@ -91,6 +91,11 @@
             setContent(newContent);
         })
 
+        $(".comment-reply-btn").click(function(e){
+            e.preventDefault();
+            $(this).parent().next(".comment-reply").fadeToggle();
+        })
+
 
     })
     </script>
