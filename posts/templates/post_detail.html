@@ -22,7 +22,7 @@
         <!-- {{ instance.get_markdown}} -->
     </div>
     <div>
-        {{ instance.comments.all }}
+        <!-- {{ instance.comments.all }} -->
         <!-- {{ instance.comment_set.all }} -->
     </div>
     <div>
@@ -34,8 +34,21 @@
         </form>
         {% for i in comments %}
         <blockquote>
-            {{ i.content_object }}
-            <div class="">{{ i.content }} <br/> via {{ i.user }} on {{ i.timestamp|timesince }} ago</div>
+            
+            <div class="">{{ i.content }} | {{ i.user }} on {{ i.timestamp|timesince }} ago</div>
+
+            {% for j in i.children %}
+            <blockquote>
+            <div class="">{{ j.content }} | {{ j.user }} on {{ j.timestamp|timesince }} ago</div>
+            </blockquote>
+            {% endfor %}
+
+            <form action="." method="POST">
+                {% csrf_token %}
+                {{ comment_form|crispy }}
+                <input type="hidden" name="parent_id" value="{{ i.id }}">
+                <input type="submit" value="Reply" class="btn btn-default">
+            </form>
         </blockquote>
             
         {% endfor %}
