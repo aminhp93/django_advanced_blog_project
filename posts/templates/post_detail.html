@@ -19,10 +19,14 @@
     </div>
     <div>
         <p class="lead">Comments</p>
+        {% if request.user.is_authenticated %}
         <form action="." method="POST">
             {% csrf_token %} {{ comment_form | crispy}}
             <input type="submit" value="Post comment" class="btn btn-default">
         </form>
+        {% else %}
+        <p>You must login to comment</p>
+        {% endif %}
         {% for i in comments %}
         <blockquote>
             <div class="">{{ i.content }} | {{ i.user }} (id={{i.id}}) on {{ i.timestamp|timesince }} ago | {% if i.children.count > 0 %} {{ i.children.count }} comment(s) {% endif %}<a href="#" class="comment-reply-btn">Reply</a> | <a href="{{i.get_absolute_url}}">Thread</a></div>
@@ -32,11 +36,15 @@
                     <div class="">{{ j.content }} | {{ j.user }} on {{ j.timestamp|timesince }} ago</div>
                 </blockquote>
                 {% endfor %}
+                {% if request.user.is_authenticated %}
                 <form action="." method="POST">
                     {% csrf_token %} {{ comment_form|crispy }}
                     <input type="hidden" name="parent_id" value="{{ i.id }}">
                     <input type="submit" value="Reply" class="btn btn-default">
                 </form>
+                {% else %}
+                    <p>You must login to comment</p>
+                {% endif %}
             </div>
         </blockquote>
         {% endfor %}
