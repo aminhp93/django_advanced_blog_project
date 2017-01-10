@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 
-
+from .utils import get_read_time
 from markdown_deux import markdown
 from comments.models import Comment
 
@@ -36,6 +36,7 @@ class Post(models.Model):
 	publish = models.DateField(auto_now=False, auto_now_add=False)
 	update = models.DateTimeField(auto_now = True, auto_now_add=False)
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+	read_time = models.TimeField(null=True, blank=True)
 
 	objects = PostManager()
 
@@ -80,5 +81,11 @@ def create_slug(instance, new_slug=None):
 def pre_save_post_receiver(sender, instance, *args, **kwargs):
 	if not instance.slug:
 		instance.slug = create_slug(instance)
+
+	# if instance.content:
+	# 	html_string = instance.content
+	# 	read_time = get_read_time(html_string)
+		
+
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
